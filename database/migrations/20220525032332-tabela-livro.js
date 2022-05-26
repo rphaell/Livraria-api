@@ -1,11 +1,11 @@
 'use strict';
 
 module.exports = {
-  async up (queryInterface, Sequelize) {
-    
-     
-     await queryInterface.createTable('livros',
-      { 
+  async up(queryInterface, Sequelize) {
+
+
+    await queryInterface.createTable('livros',
+      {
         id: {
           type: Sequelize.DataTypes.INTEGER(10),
           primaryKey: true,
@@ -36,12 +36,12 @@ module.exports = {
         updatedAt: Sequelize.DataTypes.DATE
 
       });
-     
+
   },
 
-  async down (queryInterface, Sequelize) {
-    
-     await queryInterface.dropTable('livros');
-     
+  async down(queryInterface, Sequelize) {
+
+    await queryInterface.dropTable('livros');
+
   }
 };
