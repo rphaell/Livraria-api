@@ -339,54 +339,112 @@ o segundo é uma descrição das colunas
 e o terceiro é o nome da tabela.
 ☐ Copie o conteudo das colunas das migration para o model
 module.exports = (sequelize, DataTypes) => {
-    return sequelize.define(
-        "Usuario",
+    const livro = sequelize.define(
+        "Livro",
         {
-          id: {
-          type: Sequelize.DataTypes.INTEGER(10),
-          primaryKey: true,
-          autoIncrement: true,
-          allowNull: false
-        },
-        titulo: {
-          type: Sequelize.DataTypes.STRING(200),
-          allowNull: false
-        },
-        total_paginas: {
-          type: Sequelize.DataTypes.INTEGER,
-          allowNull: false
-        },
-        autor: {
-          type: Sequelize.DataTypes.STRING,
-          allowNull: false
-        },
-        ano_lancamento: {
-          type: Sequelize.DataTypes.STRING(50),
-          allowNull: false
-        },
-        estoque: {
-          type: Sequelize.DataTypes.INTEGER,
-          allowNull: false,
-        }
+            id: {
+                type: DataTypes.INTEGER(10),
+                primaryKey: true,
+                autoIncrement: true,
+                allowNull: false
+              },
+              titulo: {
+                type: DataTypes.STRING(200),
+                allowNull: false
+              },
+              total_paginas: {
+                type: DataTypes.INTEGER,
+                allowNull: false
+              },
+              autor: {
+                type: DataTypes.STRING,
+                allowNull: false
+              },
+              ano_lancamento: {
+                type: DataTypes.STRING(50),
+                allowNull: false
+              },
+              estoque: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+              },
+              createdAt: DataTypes.DATE,
+              updatedAt: DataTypes.DATE
 
         },
         {
-            tablename: "usuarios"
-        }
-    )
+            tablename: "livros",
+            timestamps: true
+        })
+
+        return Livro
+    
 
 }
-☐ Remove a palavra "Sequelize." das colunas na model. 
+☐ apague as linhas 7, 8 do app.js
+☐ crie um arquivo na raiz do projeto chamado routes.js
+☐ apague as linhas 21 e 22 do app.js onde nós criaremos nossas rotas
 
-exemplo..
 
-estoque: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-}
-☐ Crie uma pasta tests com um arquivo testeModelUsuario
-☐ 
+CRIANDO AS ROTAS:
 
+☐ Importe o expresse  o express.Router dentro do arquivo de routes.
+const express = require('express');
+const router = express.Router();
+☐ Importe o controller dentro da pasta routes.js
+const LivrosController = require('./controllers/LivrosController')
+☐ Crie op arquivo LivrosController dentro da pasta controllers
+☐ Crie a const LivrosController e exporte-a dentro da pasta que acabou de criar..
+const LivrosController = {};
+
+module.exports = LivrosController;
+☐ Exporte o router que esta dentro do arquivo router.js
+assim deve ficar;
+
+const express = require('express');
+const router = express.Router();
+const LivrosController = require('./controllers/LivrosController')
+
+
+module.exports = router
+☐ Importe o LivroRouters dentro de app.js
+const LivrosRouter = require('./routes')
+☐ Use o router dentro de app.js
+app.use("/livros", LivrosRouter)
+
+☐ Crie a rota para mostrar todos os livros.
+router.get("./", LivrosController.mostrarTodosOsLivros)
+☐ Crie uma função async para mostrarTodosOsLivros com o try e o catch.
+const LivrosController = {
+    mostrarTodosOsLivros: async (req, res) =>{
+        try {} catch(error) {}
+
+    }
+};
+
+module.exports = LivrosController;
+
+Obs: Dentro do try colocaremos todo nosos código para mostrar tds os livros
+dentro do catch ficará o erro.
+☐ Faça a desestruturação da Models Livro dentro do controller.
+const { Livro } = require('../models')
+☐ Dentro do try faça a função para procurar e imprimir todos os livros com a função do sequelize findAll
+const livros = await Livro.findAll()
+return res.status(200).json(livros)
+☐ Dentro do catch faça a função para imprimir o erro
+console.log(error);
+return res.status(500).json({error})
+☐ assim deve ficar a função mostrarTosoOsLivros:
+mostrarTodosOsLivros: async (req, res) => {
+        try {
+            const livros = await Livro.findAll();
+            return res.status(200).json(livros);
+        } catch(error){
+            console.log(error);
+            return res.status(500).json({error});
+        }
+    },
+☐ Use o comando npm run dev e na url acessar localhost:3000/livros
 
 
 
